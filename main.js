@@ -26,13 +26,16 @@ let mainCalculatorContainer = document.querySelector(".calculator")
 let input = "";
 let firstNumber;
 let secondNumber;
-let operator = 0;
+let operator;
 let total = 0;
-
+let resulted = false
 mainCalculatorContainer.addEventListener("click", (e) => {
     // if user clicked a number
     if (e.target.classList.contains("number")) {
+        if (resulted) {
+            ac()
 
+        }
         input += e.target.textContent;
         display.textContent = input;
     }
@@ -41,51 +44,74 @@ mainCalculatorContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("operator")) {
         if (Number.isInteger(firstNumber)) {
             secondNumber = +input;
-            input = "";
             display.textContent = input
-        } else {
-            firstNumber = +input;
-            input = "";
-        }
-        if (e.target.textContent == "=") {
-            operate(firstNumber, secondNumber, operator)
-            secondNumber = undefined;
-            input = total
-            display.textContent = input;
-            firstNumber = +input;
             input = ""
         } else {
-            operator = e.target.textContent
+            if (total) {
+                firstNumber = total
+            } else {
+                firstNumber = +input;
+            }
+            input = ""
+
         }
+
+        operator = e.target.textContent
+        resulted = false;
+
+        console.table([firstNumber, secondNumber, operator])
         if (Number.isInteger(firstNumber) && Number.isInteger(secondNumber)) {
             operate(firstNumber, secondNumber, operator)
         }
-
     }
     // If user clicks on a special key
     if (e.target.classList.contains("specialOperator")) {
-        if (e.target.textContent == "AC") {
-            firstNumber = secondNumber = total = operator = 0
-            input = ""
-            display.textContent = "0";
+        if (e.target.textContent == "=") {
+            if (Number.isInteger(firstNumber)) {
+                secondNumber = +input
+                operate(firstNumber, secondNumber, operator)
+            }
         }
+
+        if (e.target.textContent == "AC") {
+            ac()
+        }
+
         if (e.target.textContent == "Del") {
+
+            input = display.textContent
             input = input.split("").splice(0, 1).join("")
             display.textContent = input;
+            if (input.split('').length == 1) {
+                display.textContent = 0;
+                input = ""
+            }
+
 
         }
+
+
     }
 })
 function operate(first, second, op) {
+    if (!(first || second)) {
+        return
+    }
     if (op == "+") { total = first + second }
     if (op == "-") { total = first - second }
     if (op == "*") { total = first * second }
     if (op == "/") { total = first / second }
-    firstNumber = total;
+    display.textContent = total.toString()
+    operator = 0
+    firstNumber = undefined;
     secondNumber = undefined;
-    input = firstNumber;
-    display.textContent = input.toString()
-    input = "";
-    console.table([first, second, op, total])
+    resulted = true
+}
 
+function ac() {
+    firstNumber = secondNumber = undefined;
+    total = operator = 0
+    input = ""
+    resulted = false;
+    display.textContent = "0";
 }
