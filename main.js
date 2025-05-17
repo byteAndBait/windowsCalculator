@@ -24,8 +24,8 @@
 let display = document.querySelector(".display")
 let mainCalculatorContainer = document.querySelector(".calculator")
 let input = "";
-let firstNumber = 0;
-let secondNumber = 0;
+let firstNumber;
+let secondNumber;
 let operator = 0;
 let total = 0;
 
@@ -39,27 +39,25 @@ mainCalculatorContainer.addEventListener("click", (e) => {
 
     // if user clicked an operator
     if (e.target.classList.contains("operator")) {
-
-        if (firstNumber) {
+        if (Number.isInteger(firstNumber)) {
             secondNumber = +input;
             input = "";
             display.textContent = input
-            console.log("second " + secondNumber)
         } else {
             firstNumber = +input;
             input = "";
-            console.log("first " + firstNumber)
         }
         if (e.target.textContent == "=") {
             operate(firstNumber, secondNumber, operator)
-            firstNumber = 0;
-            secondNumber = 0;
+            secondNumber = undefined;
             input = total
             display.textContent = input;
+            firstNumber = +input;
+            input = ""
         } else {
             operator = e.target.textContent
         }
-        if (firstNumber && secondNumber) {
+        if (Number.isInteger(firstNumber) && Number.isInteger(secondNumber)) {
             operate(firstNumber, secondNumber, operator)
         }
 
@@ -68,8 +66,8 @@ mainCalculatorContainer.addEventListener("click", (e) => {
     if (e.target.classList.contains("specialOperator")) {
         if (e.target.textContent == "AC") {
             firstNumber = secondNumber = total = operator = 0
-            input = "0"
-            display.textContent = input;
+            input = ""
+            display.textContent = "0";
         }
         if (e.target.textContent == "Del") {
             input = input.split("").splice(0, 1).join("")
@@ -84,7 +82,7 @@ function operate(first, second, op) {
     if (op == "*") { total = first * second }
     if (op == "/") { total = first / second }
     firstNumber = total;
-    secondNumber = 0;
+    secondNumber = undefined;
     input = firstNumber;
     display.textContent = input.toString()
     input = "";
