@@ -102,7 +102,7 @@ mainCalculatorContainer.addEventListener("click", (e) => {
         }
     }
 
-    
+
 })
 
 
@@ -110,10 +110,10 @@ function operate(arr) {
     if (arr.length < 3) {
         return
     }
-    if (arr[1] == "+") total = arr[0] + arr[2]
-    if (arr[1] == "-") total = arr[0] - arr[2]
-    if (arr[1] == "/") total = arr[0] / arr[2]
-    if (arr[1] == "*") total = arr[0] * arr[2]
+    if (arr[1] == "+") total = +arr[0] + +arr[2]
+    if (arr[1] == "-") total = +arr[0] - +arr[2]
+    if (arr[1] == "/") total = +arr[0] / +arr[2]
+    if (arr[1] == "*") total = +arr[0] * +arr[2]
     arr.splice(1, 2)
     arr[0] = total.toFixed(2);
     // console.log("after operation" + arr)
