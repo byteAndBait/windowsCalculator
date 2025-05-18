@@ -38,7 +38,10 @@ mainCalculatorContainer.addEventListener("click", (e) => {
 
         if (e.target.textContent == ".") {
             // console.log("user enterd .")
+            if(input.length == 0){
             input = "0"
+
+            }
             if (input.split("").includes(".")) {
                 console.log("There is a decimal point IDIOT")
             } else {
@@ -78,6 +81,7 @@ mainCalculatorContainer.addEventListener("click", (e) => {
             document.querySelector(".inUse").classList.remove("inUse")
         }
         e.target.classList.add("inUse")
+        equalWasPressed = false
     }
 
     // -------------------- Special operators
