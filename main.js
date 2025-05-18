@@ -38,6 +38,7 @@ mainCalculatorContainer.addEventListener("click", (e) => {
 
         if (e.target.textContent == ".") {
             // console.log("user enterd .")
+            input = "0"
             if (input.split("").includes(".")) {
                 console.log("There is a decimal point IDIOT")
             } else {
@@ -84,18 +85,25 @@ mainCalculatorContainer.addEventListener("click", (e) => {
         if (e.target.textContent == "AC") { ac(); display.textContent = 0 }
         if (e.target.textContent == "Del") {
             let index = calculatorHistory.indexOf(+input)
-            calculatorHistory[index] = calculatorHistory[index].toString().split("")
-
-            calculatorHistory[index].splice(0, 1)
-
-            calculatorHistory[index] = +calculatorHistory[index].join("")
-            input = calculatorHistory[index]
-            display.textContent = input
+            console.log(calculatorHistory[index])
+            if(calculatorHistory[index].toString().length == 1){
+                input = ""
+                display.textContent = input
+            }else{
+                calculatorHistory[index] = calculatorHistory[index].toString().split("")
+                console.log(calculatorHistory[index])
+                calculatorHistory[index].splice(calculatorHistory[index].length-1, 1)
+                console.log(calculatorHistory[index])
+                calculatorHistory[index] = +calculatorHistory[index].join("")
+                input = calculatorHistory[index]
+                display.textContent = input
+            }
+           
 
         }
 
         if (e.target.textContent == "=") {
-            if (calculatorHistory.length >= 3) {
+            if (calculatorHistory.length >= 3) {    
                 operate(calculatorHistory)
                 equalWasPressed = true
             }
@@ -115,14 +123,15 @@ function operate(arr) {
     if (arr[1] == "/") total = +arr[0] / +arr[2]
     if (arr[1] == "*") total = +arr[0] * +arr[2]
     arr.splice(1, 2)
-    arr[0] = total.toFixed(2);
+    arr[0] = total
     // console.log("after operation" + arr)
-    display.textContent = arr[0]
+    display.textContent = arr[0].toFixed(2)
     historyElement.textContent = arr.join(" ")
     document.querySelector(".inUse").classList.remove("inUse")
+    input = total
 }
 function ac() {
-    list = [0]
+    calculatorHistory = [0]
     equalWasPressed = false
     total = undefined
     input = ""
