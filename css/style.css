@@ -3,21 +3,32 @@
 
 body{
     min-height: 100vh;
-    font-family: Inter, sans-serif
+    font-family: Inter, sans-serif;
+    background: silver;
 }
 
 /* Calculator styling */
-
+main {
+    max-width: 40rem;
+    padding: 1em;
+    background: white;
+    border-radius: 10px;     
+    }
 main .display {
-    background: rgb(200, 255, 117);
-    border: solid black 1px;
+    /* background: rgb(200, 255, 117); */
+    border: solid rgba(0, 0, 0, 0.123) 1px;
     padding: 2rem;
     font-family: "Orbitron", sans-serif;
-    font-size: 1.5rem
-}
-main button{
-    padding: 2rem;
     font-size: 1.5rem;
+}
+main .buttons{
+    display: flex;
+    flex-wrap : wrap;
+}
+main .buttons button{
+    padding: 1em;
+    font-size: 1.5rem;
+    flex: 1 2 22%;
     margin: .5rem;
     cursor: pointer;
 }
