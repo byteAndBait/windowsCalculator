@@ -1,117 +1,110 @@
-
 /*
-    we want a calculator that can do +,-,/,* on each pair of numbers.
+given the list [0]
+when inputting check first if equalWasPressed to make it false and ac()
+when inputting if the list has an index of 1 then we are inputting the firstNumber , and list[0] = +input
+when operator is clicked 
+    check first if the last element isn't a operator and is a number
+        if so just return
+    it's pushed to list,
+    check if the list length is 4 to operate
+    input = ""
+when inputting if thel list has length of 2 then we are inputting secondNumber  , and list[2] = +input
+the operate takes the 0 index as first and 1 as operator and 2 as secondNumber
+then it calc the total and removes these 2 and 1 index and replace index 0 with total and there will be an operator at the end
+, then it input the secondNumber cuz the length would be 2
+*/
 
-    given a display element and textContent from a delegation event we should operate.
 
-    make a variables Total,firstNumber, secondNumber and the input.
 
-    make references with delegation for numbers and operators,special functions.
-
-    make a function checkInput that when the one of the operators is clicked, if the input
-    has a value so put the value to the firstNumber varaible , and when it's clicked again 
-    check whether the firstNumber has value if so put it to the secondNumber .
-
-    and in every click check if the both numbers have values if so operate(first,second,op).
-    in operate() make condition for every operation and then assign the result to the total
-    and assign the firstNumber value to the total value so we can use it again, and display the total.
-
-    when = is clicked do operate.
-    when AC is clicked reset all the values and display zero.
-
-    **Note** when clicking a number make the firstNumber = 0
-    */
 let display = document.querySelector(".display")
 let mainCalculatorContainer = document.querySelector(".calculator")
 let input = "";
-let firstNumber;
-let secondNumber;
-let operator;
-let total = 0;
-let resulted = false
-mainCalculatorContainer.addEventListener("click", (e) => {
-    // if user clicked a number
-    if (e.target.classList.contains("number")) {
-        if (resulted) {
-            ac()
+let total;
+let equalWasPressed = false
+let calculatorHistory = [0]
+let historyElement = document.querySelector(".history")
+
+mainCalculatorContainer.addEventListener("click", (e)=>{
+
+    // -------------------- input numbers
+    if(e.target.classList.contains("number")){
+
+        if(equalWasPressed){
+            ac();
+        }
+
+        input += e.target.textContent
+        display.textContent = input
+        if(calculatorHistory.length == 1){
+            calculatorHistory[0] = +input
+            historyElement.textContent = calculatorHistory.join(" ")
 
         }
-        input += e.target.textContent;
-        display.textContent = input;
+        if(calculatorHistory.length >= 2){
+            calculatorHistory[2] = +input
+            historyElement.textContent = calculatorHistory.join(" ")
+        }
     }
 
-    // if user clicked an operator
-    if (e.target.classList.contains("operator")) {
-        if (Number.isInteger(firstNumber)) {
-            secondNumber = +input;
+    // -------------------- operators
+    if(e.target.classList.contains("operator")){
+        if(isNaN(calculatorHistory[calculatorHistory.length-1])){
+            calculatorHistory.splice(calculatorHistory.length-1,1)
+        }
+            calculatorHistory.push(e.target.textContent)
+            if(calculatorHistory.length == 4){
+                operate(calculatorHistory)
+            }
+            historyElement.textContent = calculatorHistory.join(" ")
+            input = ""
+
+            // styling the current operation selected
+
+            if(document.querySelector(".inUse")){
+                document.querySelector(".inUse").classList.remove("inUse")
+            }
+            e.target.classList.add("inUse")
+    }
+    
+    // -------------------- Special operators
+    if(e.target.classList.contains("specialOperator")){
+        if(e.target.textContent == "AC") {ac(); display.textContent = 0}
+        if(e.target.textContent == "Del") {
+            input = input.split("")
+            input.splice(0,1)
+            input=input.join("")
             display.textContent = input
-            input = ""
-        } else {
-            if (total) {
-                firstNumber = total
-            } else {
-                firstNumber = +input;
-            }
-            input = ""
-
         }
 
-        operator = e.target.textContent
-        resulted = false;
-
-        console.table([firstNumber, secondNumber, operator])
-        if (Number.isInteger(firstNumber) && Number.isInteger(secondNumber)) {
-            operate(firstNumber, secondNumber, operator)
-        }
-    }
-    // If user clicks on a special key
-    if (e.target.classList.contains("specialOperator")) {
-        if (e.target.textContent == "=") {
-            if (Number.isInteger(firstNumber)) {
-                secondNumber = +input
-                operate(firstNumber, secondNumber, operator)
+        if(e.target.textContent == "="){
+            if(calculatorHistory.length >= 3){
+                operate(calculatorHistory)
+                equalWasPressed = true
             }
         }
-
-        if (e.target.textContent == "AC") {
-            ac()
-        }
-
-        if (e.target.textContent == "Del") {
-
-            input = display.textContent
-            input = input.split("").splice(0, 1).join("")
-            display.textContent = input;
-            if (input.split('').length == 1) {
-                display.textContent = 0;
-                input = ""
-            }
-
-
-        }
-
-
     }
 })
-function operate(first, second, op) {
-    if (!(first || second)) {
+
+
+function operate(arr){
+    if(arr.length < 3){
         return
     }
-    if (op == "+") { total = first + second }
-    if (op == "-") { total = first - second }
-    if (op == "*") { total = first * second }
-    if (op == "/") { total = first / second }
-    display.textContent = total.toString()
-    operator = 0
-    firstNumber = undefined;
-    secondNumber = undefined;
-    resulted = true
+    if(arr[1] == "+") total = arr[0] + arr[2]
+    if(arr[1] == "-") total = arr[0] - arr[2]
+    if(arr[1] == "/") total = arr[0] / arr[2]
+    if(arr[1] == "*") total = arr[0] * arr[2]
+        arr.splice(1,2)
+    arr[0] = total;
+    console.log("after operation" + arr)
+    display.textContent = arr[0]
+    historyElement.textContent = arr.join(" ")
+    document.querySelector(".inUse").classList.remove("inUse")
 }
-
-function ac() {
-    firstNumber = secondNumber = undefined;
-    total = operator = 0
+function ac(){
+    list = [0]
+    equalWasPressed = false
+    total = undefined
     input = ""
-    resulted = false;
-    display.textContent = "0";
+    historyElement.textContent = ""
 }
