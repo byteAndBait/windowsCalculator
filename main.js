@@ -24,84 +24,104 @@ let equalWasPressed = false
 let calculatorHistory = [0]
 let historyElement = document.querySelector(".history")
 
-mainCalculatorContainer.addEventListener("click", (e)=>{
+mainCalculatorContainer.addEventListener("click", (e) => {
 
     // -------------------- input numbers
-    if(e.target.classList.contains("number")){
-
-        if(equalWasPressed){
+    if (e.target.classList.contains("number")) {
+        function modify() {
+            input += e.target.textContent
+            display.textContent = input
+        }
+        if (equalWasPressed) {
             ac();
         }
 
-        input += e.target.textContent
-        display.textContent = input
-        if(calculatorHistory.length == 1){
+        if (e.target.textContent == ".") {
+            // console.log("user enterd .")
+            if (input.split("").includes(".")) {
+                console.log("There is a decimal point IDIOT")
+            } else {
+                modify()
+            }
+        } else {
+            modify()
+        }
+
+
+        if (calculatorHistory.length == 1) {
             calculatorHistory[0] = +input
             historyElement.textContent = calculatorHistory.join(" ")
 
         }
-        if(calculatorHistory.length >= 2){
+        if (calculatorHistory.length >= 2) {
             calculatorHistory[2] = +input
             historyElement.textContent = calculatorHistory.join(" ")
         }
     }
 
     // -------------------- operators
-    if(e.target.classList.contains("operator")){
-        if(isNaN(calculatorHistory[calculatorHistory.length-1])){
-            calculatorHistory.splice(calculatorHistory.length-1,1)
+    if (e.target.classList.contains("operator")) {
+        if (isNaN(calculatorHistory[calculatorHistory.length - 1])) {
+            calculatorHistory.splice(calculatorHistory.length - 1, 1)
         }
-            calculatorHistory.push(e.target.textContent)
-            if(calculatorHistory.length == 4){
-                operate(calculatorHistory)
-            }
-            historyElement.textContent = calculatorHistory.join(" ")
-            input = ""
+        calculatorHistory.push(e.target.textContent)
+        if (calculatorHistory.length == 4) {
+            operate(calculatorHistory)
+        }
+        historyElement.textContent = calculatorHistory.join(" ")
+        input = ""
 
-            // styling the current operation selected
+        // styling the current operation selected
 
-            if(document.querySelector(".inUse")){
-                document.querySelector(".inUse").classList.remove("inUse")
-            }
-            e.target.classList.add("inUse")
+        if (document.querySelector(".inUse")) {
+            document.querySelector(".inUse").classList.remove("inUse")
+        }
+        e.target.classList.add("inUse")
     }
-    
+
     // -------------------- Special operators
-    if(e.target.classList.contains("specialOperator")){
-        if(e.target.textContent == "AC") {ac(); display.textContent = 0}
-        if(e.target.textContent == "Del") {
-            input = input.split("")
-            input.splice(0,1)
-            input=input.join("")
+    if (e.target.classList.contains("specialOperator")) {
+        if (e.target.textContent == "AC") { ac(); display.textContent = 0 }
+        if (e.target.textContent == "Del") {
+            let index = calculatorHistory.indexOf(+input)
+            calculatorHistory[index] = calculatorHistory[index].toString().split("")
+
+            calculatorHistory[index].splice(0, 1)
+
+            calculatorHistory[index] = +calculatorHistory[index].join("")
+            input = calculatorHistory[index]
             display.textContent = input
+
         }
 
-        if(e.target.textContent == "="){
-            if(calculatorHistory.length >= 3){
+        if (e.target.textContent == "=") {
+            if (calculatorHistory.length >= 3) {
                 operate(calculatorHistory)
                 equalWasPressed = true
             }
         }
     }
+
+    
 })
 
 
-function operate(arr){
-    if(arr.length < 3){
+function operate(arr) {
+    if (arr.length < 3) {
         return
     }
-    if(arr[1] == "+") total = arr[0] + arr[2]
-    if(arr[1] == "-") total = arr[0] - arr[2]
-    if(arr[1] == "/") total = arr[0] / arr[2]
-    if(arr[1] == "*") total = arr[0] * arr[2]
-        arr.splice(1,2)
-    arr[0] = total;
-    console.log("after operation" + arr)
+    if (arr[1] == "+") total = arr[0] + arr[2]
+    if (arr[1] == "-") total = arr[0] - arr[2]
+    if (arr[1] == "/") total = arr[0] / arr[2]
+    if (arr[1] == "*") total = arr[0] * arr[2]
+    arr.splice(1, 2)
+    arr[0] = total.toFixed(2);
+    // console.log("after operation" + arr)
     display.textContent = arr[0]
     historyElement.textContent = arr.join(" ")
     document.querySelector(".inUse").classList.remove("inUse")
 }
-function ac(){
+function ac() {
     list = [0]
     equalWasPressed = false
     total = undefined
