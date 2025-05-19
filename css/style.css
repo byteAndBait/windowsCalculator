@@ -1,103 +1,104 @@
-
-:root{
-    --gradient-top : #ecf1fc;
-    --gradient-bottom : #fcf4ef;
-    --primary-button-color: #fff;
-    --secondary-button-color  :#f7f2f0;
-    --button-border-color: #d1cac7;
-    --equal-button-color: #d20e1e;  
+:root {
+  --gradient-top: #ecf1fc;
+  --gradient-bottom: #fcf4ef;
+  --primary-button-color: #fff;
+  --secondary-button-color: #f7f2f0;
+  --button-border-color: #d1cac7;
+  --equal-button-color: #d20e1e;
 }
 
 /* Global Rules */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap");
 
-body{
-    min-height: 100vh;
-    font-family: Inter, sans-serif;
-    background: silver;
-    display: grid;
-    place-items: center;
+body {
+  min-height: 100vh;
+  font-family: Inter, sans-serif;
+  background: silver;
+  display: grid;
+  place-items: center;
 }
 
 /* Calculator styling */
 main {
-    max-width: 30rem;
-    padding: 1em;
-    background-image: linear-gradient(1650deg , var(--gradient-top), var(--gradient-bottom));
-    border-radius: 10px;     
-    text-align: end;
+  max-width: 30rem;
+  padding: 1em;
+  background-image: linear-gradient(
+    1650deg,
+    var(--gradient-top),
+    var(--gradient-bottom)
+  );
+  border-radius: 10px;
+  text-align: end;
 }
-main .header{
-    padding: 1em;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1em;
+main .header {
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1em;
 }
-main .header h3{
-    margin: 0;
-    font-weight: 600;
-    font-size: 1.5rem;
+main .header h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.5rem;
 }
 main .header .burger-icon {
-    width: 30px;
-    height: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  width: 30px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.header .burger-icon span{
-    background: black;
-    width: 100%;
-    height: 2px;
+.header .burger-icon span {
+  background: black;
+  width: 100%;
+  height: 2px;
 }
 main .display {
-    font-family: "Orbitron", sans-serif;
-    padding: .5rem 1rem;
-    font-size: 2rem; 
-    margin: 1rem 0;
+  font-family: "Orbitron", sans-serif;
+  padding: 0.5rem 1rem;
+  font-size: 2rem;
+  margin: 1rem 0;
 }
-main .history{
-    padding: 0 1rem;
-    color: grey;
-
+main .history {
+  padding: 0 1rem;
+  color: grey;
 }
-main .buttons{
-    display: flex;
-    flex-wrap : wrap;
-    gap: .5rem;
+main .buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
-main .buttons button{
-    padding: 1em;
-    font-size: 1.8rem;
-    flex: 1 20%;
-    max-height: 4.5rem;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--secondary-button-color);
-    border: solid 1px var(--button-border-color);
-    cursor: pointer;
-    transition: .3s;
-    border-radius: 10px;
+main .buttons button {
+  padding: 1em;
+  font-size: 1.8rem;
+  flex: 1 20%;
+  max-height: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--secondary-button-color);
+  border: solid 1px var(--button-border-color);
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 10px;
 }
-main .buttons .number{
-    background: var(--primary-button-color)
+main .buttons .number {
+  background: var(--primary-button-color);
 }
-main .buttons .equal{
-    background: var(--equal-button-color);
-    color: white;
+main .buttons .equal {
+  background: var(--equal-button-color);
+  color: white;
 }
-main .buttons button:not(.equal):hover{
-    background: rgb(226, 226, 226)
+main .buttons button:not(.equal):hover {
+  background: rgb(226, 226, 226);
 }
-main *::selection{
-    all: none;
-    cursor: none;
+main *::selection {
+  all: none;
+  cursor: none;
 }
-.inUse{
-    background: black!important;
-    color:white;
-    border-width: 2px;
-    
+.inUse {
+  background: black !important;
+  color: white;
+  border-width: 2px;
 }
